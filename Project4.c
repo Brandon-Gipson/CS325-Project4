@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 //declare algorithm functions here
+int distance(int xOne, int xTwo, int yOne, int yTwo);
 
 struct City {
 	int id;
@@ -12,7 +14,7 @@ struct City {
 
 int main(int argc, char *argv[]) {
 	FILE *inputFile = fopen(argv[2], "r");
-	int i = 0, j = 0, k = 0, ans = 0, num, someNumber, n;
+	int i = 0, j = 0, k = 0, l = 0, ans = 0, num, someNumber, n;
 	char *out;
 	struct City cities[n]; //change n to be the number of cities or update this the be dynamic
 	
@@ -38,6 +40,15 @@ int main(int argc, char *argv[]) {
 		i++;
 	}
 	fclose(inputFile);
+	
+	//Cost matrix creater. Ex. cost[2][4] = the distance from cities[2].id to cities[4].id
+	int cost[j][j];
+	for(i = 0; i <= j; i++) {
+		for(k = 0; k < j; k++) {
+			cost[i][k] = distance(cities[i].x, cities[k].x, cities[i].y, cities[k].y);
+		}
+	}
+	
 	
 	if(j < someNumber ) { //change someNumber to real value
 		//call algorithm
@@ -68,3 +79,14 @@ int main(int argc, char *argv[]) {
 }
 
 //algorithm functions go here
+
+/********************************************
+* Returns the distance between two cities
+*********************************************/
+int distance(int xOne, int xTwo, int yOne, int yTwo) {
+	int ans;
+	
+	ans = sqrt((pow((xOne - xTwo), 2) + pow((yOne-yTwo), 2)));
+	
+	return ans;
+}
