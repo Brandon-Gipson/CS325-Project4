@@ -73,10 +73,11 @@ int main(int argc, char *argv[]) {
 	//Calculates nearest neighbor
 	while(pathSize < (totalCities-1)) {
 		for(j = 0; j < (totalCities-1); j++) {
-			if(cost[current][j] < dCost) {
+			if((cost[current][j] < dCost) && (cost[current][j] != 0)) {
 				for(k = 0; k < pathSize; k++) {
 					if(cities[j].id == path[k]) {
 						isVisited = 0;
+						break;
 					}
 					else {
 						isVisited = 1;
