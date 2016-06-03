@@ -15,7 +15,7 @@ int cost[15200][15200];
 
 
 int main(int argc, char *argv[]) {
-	int i = 0, j = 0, k = 0, num = 0, shortCityID = 0, totalCities = 0, cityNumber = 0, isVisited = 0, totalCost = 0, current = 0, dCost = INT_MAX;
+	int i = 0, j = 0, k = 0, num = 0, totalCities = 0, cityNumber = 0, isVisited = 0, totalCost = 0, current = 0, dCost = INT_MAX;
 	char filename[100];
 	struct City cities[15200];
 	
@@ -85,14 +85,13 @@ int main(int argc, char *argv[]) {
 				if(isVisited == 1) {
 					dCost = cost[current][j];
 					cityNumber = j;
-					shortCityID = cities[j].id;
 				}
 			}
 		}
 		totalCost += dCost;
 		dCost = INT_MAX;
 		current =  cityNumber;
-		path[pathSize] = shortCityID;
+		path[pathSize] = cities[cityNumber].id;
 		pathSize++;
 	}
 	
