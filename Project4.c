@@ -13,7 +13,7 @@ struct City {
 int distance(int xOne, int xTwo, int yOne, int yTwo);
 
 int main(int argc, char *argv[]) {
-	int i = 0, j = 0, k = 0, l = 0, num = 0, shortCityID = 0, totalCities = 0, cityNumber = 0, isVisited = 0, totalCost = 0, current = 0, dCost = INT_MAX;
+	int i = 0, j = 0, k = 0, num = 0, shortCityID = 0, totalCities = 0, cityNumber = 0, isVisited = 0, totalCost = 0, current = 0, dCost = INT_MAX;
 	char filename[100];
 	struct City cities[100];
 	int cost[100][100];
@@ -25,8 +25,6 @@ int main(int argc, char *argv[]) {
 	
 	strcpy(filename, argv[1]);
 	FILE *inputFile = fopen(filename, "r");
-	
-	strcat(filename, ".tour");
 	
 	while(fscanf(inputFile, "%d", &num) == 1) {
 		k = i + 1;
@@ -83,11 +81,11 @@ int main(int argc, char *argv[]) {
 	path[0] = cities[0].id;
 	pathSize = 1;
 	
-	while(pathSize < totalCities) {
-		for(j = 0; j < totalCities; j++) {
-			if(cost[current][j-1] < dCost) {
+	while(pathSize < (totalCities-1)) {
+		for(j = 0; j < (totalCities-1); j++) {
+			if(cost[current][j] < dCost) {
 				for(k = 0; k < pathSize; k++) {
-					if(cities[j-1].id == path[k]) {
+					if(cities[j].id == path[k]) {
 						isVisited = 0;
 					}
 					else {
@@ -95,9 +93,9 @@ int main(int argc, char *argv[]) {
 					}
 				}
 				if(isVisited == 1) {
-					dCost = cost[current][j-1];
+					dCost = cost[current][j];
 					cityNumber = j;
-					shortCityID = cities[j-1].id;
+					shortCityID = cities[j].id;
 				}
 			}
 		}
@@ -108,10 +106,11 @@ int main(int argc, char *argv[]) {
 		pathSize++;
 	}
 	
+	strcat(filename, ".tour");
 	FILE *outputFile = fopen(filename, "ab+");
 	fprintf(outputFile, "%d\n", totalCost);
 	
-	for (i = 0; i <= j; i++) {
+	for (i = 0; i <= pathSize; i++) {
 		fprintf(outputFile, "%d\n", path[i]);
 	}
 	
