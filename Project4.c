@@ -11,22 +11,24 @@ struct City {
 
 //declare algorithm functions here
 int distance(int xOne, int xTwo, int yOne, int yTwo);
+int cost[15200][15200];
+
 
 int main(int argc, char *argv[]) {
 	int i = 0, j = 0, k = 0, num = 0, shortCityID = 0, totalCities = 0, cityNumber = 0, isVisited = 0, totalCost = 0, current = 0, dCost = INT_MAX;
 	char filename[100];
-	struct City cities[100];
-	int cost[100][100];
-	int path[100];
+	struct City cities[15200];
+	
+	int path[15200];
 	int pathSize;
 
-	memset(path, 0, sizeof(path[100] * 0));
-	memset(cost, 0, sizeof(cost[0][0]) * 100 * 100);
+	memset(path, 0, sizeof(path[0] * 15200));
+	memset(cost, 0, sizeof(cost[0][0]) * 15200 * 15200);
 	
 	strcpy(filename, argv[1]);
 	FILE *inputFile = fopen(filename, "r");
 	
-	while(fscanf(inputFile, "%d", &num) == 1) {
+	while(fscanf(inputFile, "%d", &num) == 1) { //Reads input from file
 		k = i + 1;
 		
 		if(k % 3 == 0) {
@@ -53,34 +55,22 @@ int main(int argc, char *argv[]) {
 	}
 	fclose(inputFile);
 	
-	//print cities for testing
-	/*
-	for(i = 0; i < j; i++) {
-		printf("City ID: %d (%d, %d) \n", cities[i].id, cities[i].x, cities[i].y);
-	}*/
 	
-	//Cost matrix creater. Ex. cost[2][4] = the distance from cities[2].id to cities[4].id
 	
 	totalCities = j;
 	
+	//Cost matrix creater. Ex. cost[2][4] = the distance from cities[2].id to cities[4].id
 	for(i = 0; i <= j; i++) {
 		for(k = 0; k < j; k++) {
 			cost[i][k] = distance(cities[i].x, cities[k].x, cities[i].y, cities[k].y);
 		}
 	}
 	
-	//print cost matrix for testing
-	/*
-	for(i = 0; i <= j; i++) {
-		for(k = 0; k < j; k++) {
-			printf("[%d][%d] %d ", i, k, cost[i][k]);
-		}
-		printf("\n\n");
-	}*/
 	
 	path[0] = cities[0].id;
 	pathSize = 1;
 	
+	//Calculates nearest neighbor
 	while(pathSize < (totalCities-1)) {
 		for(j = 0; j < (totalCities-1); j++) {
 			if(cost[current][j] < dCost) {
